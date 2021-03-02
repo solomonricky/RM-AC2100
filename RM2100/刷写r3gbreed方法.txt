@@ -1,0 +1,71 @@
+首先说明，如果你现在已经是openwrt等固件，上策是用官方救砖工具先恢复原厂(经测试，从padavan也可以成功刷入breed)。
+
+r3gbreed刷入方法:
+
+一、详情参考原贴通过漏洞打开路由telnet
+原贴地址 https://www.right.com.cn/forum/thread-4023907-1-1.html
+
+二、刷入r3gbreed
+
+【从原厂固件】
+1、Win+R ，输入cmd回车打开命令行，
+telnet 192.168.31.1
+cd /tmp
+
+2、不想备份的跳过此步
+想要备份路由原厂分区的，可以先在电脑以管理员权限运行/rm2100中的 ftpdmin.exe，之后回到telnet命令行
+例如：想备份mtd1分区，就在命令行输入
+./busybox nanddump -f mtd1.bak /dev/mtd1
+./busybox ftpput 192.168.31.177 mtd1.bak ./mtd1.bak
+备存文件存在你rm2100文件所在的硬盘根目录。不想备份也可以，我给的文件中有mtd1和eeprom的备份。
+
+3、注意此时“Task_文件服务器”进程是否还在运行，没运行的再执行一下/rm2100中的httpserver.bat
+然后执行
+wget http://192.168.31.177:8081/breed-mt7621-xiaomi-r3g.bin&&nvram set uart_en=1&&nvram set bootdelay=5&&nvram set flag_try_sys1_failed=1&&nvram commit
+mtd -r write breed-mt7621-xiaomi-r3g.bin Bootloader
+
+【从padavan】
+1、用winscp将breed-mt7621-xiaomi-r3g.bin 传入padavan的/tmp文件夹，
+
+2、用xshell、putty或telnet命令行登录padavan，执行
+cd /tmp
+
+3、不想备份的跳过此步
+cat /proc/mtd
+cat /dev/mtdblock0 > /tmp/mtd0.bak
+用winscp将/tmp/mtd0.bak文件传回电脑。
+
+4、刷写breed：
+mtd_write -r write breed-mt7621-xiaomi-r3g.bin Bootloader
+
+
+
+三、刷完breed后续
+1、将电脑改为自动获取ip，等待路由器重启（当电脑获取到ip或者路由只有一个蓝灯亮时，breed引导官方固件成功）。
+
+2、建议等待5分钟后拔电，用牙签按住reset键再插电，等蓝灯闪烁，松开reset键，电脑网线接lan，浏览器访问192.168.1.1即可进入breedweb界面。
+首次进入breed记得先点击“固件备份”，备份下编程器固件和eeprom。
+
+PS:
+对breed操作不太明白的可以看hackpascal大佬的原贴 
+https://www.right.com.cn/forum/forum.php?mod=viewthread&tid=161906
+
+经过我的测试，breed刷入所有padavan固件都很稳。
+
+推荐一下chongshengB大佬的padavan固件
+(文件夹里RM2100_3.4.3.9-099.trx、R2100_3.4.3.9-099.trx，分别是红米、小米固件，可以在breed"固件更新"-“固件”位置上传文件直接刷)
+chongshengB固件发布地址 https://github.com/chongshengB/rt-n56u/releases
+
+由于刷入的是r3gbreed，很多刷固件的问题是和r3gbreed共通的，
+刷入openwrt有问题的可以参考论坛中r3gbreed相关帖，如 https://www.right.com.cn/forum/thread-987254-1-1.html 。
+
+经测试暂时无法刷入集客，想刷集客的还是按原贴方法来 https://www.right.com.cn/forum/thread-4021056-1-1.html 。
+
+目前已知红米路由闪存有东芝和ESMT两种，刷入breed均正常。
+
+
+
+注意：保险起见，暂时不要通过breed"固件更新"功能直接刷回官方boot，刷回官方最稳妥方法在另一个文件。
+
+
+

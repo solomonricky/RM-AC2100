@@ -1,0 +1,45 @@
+恢复官方boot详细教程：
+
+从padavan固件：
+
+
+【红米】将文件中的bootloader-redmi-ac2100.bin通过winscp上传到路由/tmp目录下，
+用xshell、putty或telnet命令行登进老毛子，执行
+
+mtd_write -r write /tmp/bootloader-redmi-ac2100.bin Bootloader
+
+
+
+【小米】将bootloader-xiaomi-ac2100.bin通过winscp上传到路由/tmp目录，
+执行
+
+mtd_write -r write /tmp/bootloader-xiaomi-ac2100.bin Bootloader
+
+
+
+
+路由重启后用官方救砖工具可刷回原厂。具体步骤和资源请参考：
+小米路由官方救砖工具使用说明 https://www.xiaomi.cn/post/5289432 。
+小米路由官方资源下载首页 http://miwifi.com/miwifi_download.html 。
+
+
+从openwrt固件：
+
+由于部分op的boot分区有锁，建议最好还是先从breed刷入老毛子再按上文恢复官方。
+如果想试试，就按上文老毛子的方法导入bootloader文件，执行
+【红米】
+
+mtd -r write /tmp/bootloader-redmi-ac2100.bin Bootloader
+
+
+
+【小米】
+
+mtd -r write /tmp/bootloader-xiaomi-ac2100.bin Bootloader
+
+
+
+
+再次提醒，通过breed"固件更新"功能直接刷回官方boot目前存在不确定性，不是很建议。
+
+
