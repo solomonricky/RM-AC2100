@@ -13,3 +13,23 @@ Flash R3G Breed into Xiaomi Redmi Router AC2100/ Xiaomi AC2100 and flash back Of
 9. Copy the code below, paste at **TASK_Shell** window and enter.
 > cd /tmp&&wget http://192.168.31.177:8081/busybox&&chmod a+x ./busybox&&./busybox telnetd -l /bin/sh
 10. Router Telnet Service is enable.
+
+### Step Two: Flash R3G Breed
+#### From Original Firmware
+1. Open CMD/Putty/XShell and paste the code below.
+> telnet 192.168.31.1
+
+> cd /tmp
+
+#### From Padavan Firmware
+1. Open [WinSCP](https://winscp.net/eng/download.php). Enter your AC2100 Router IP Info.
+2. Upload **breed-mt7621-xiaomi-r3g.bin** to /tmp
+3. Open CMD/Putty/XShell login to Padavan run the code below.
+> cd /tmp
+4. Backup
+> cat /proc/mtd
+
+> cat /dev/mtdblock0 > /tmp/mtd0.bak
+
+5. Use WinSCP download /tmp/mtd0.bak to PC.
+
