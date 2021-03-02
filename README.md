@@ -16,10 +16,16 @@ Flash R3G Breed into Xiaomi Redmi Router AC2100/ Xiaomi AC2100 and flash back Of
 
 ### Step Two: Flash R3G Breed
 #### From Original Firmware
-1. Open CMD/Putty/XShell and paste the code below.
+1. Open CMD/Putty/XShell and paste the code below. (When PC get IP ad router have blue light mean breed success.
 > telnet 192.168.31.1
 
 > cd /tmp
+
+> wget http://192.168.31.177:8081/breed-mt7621-xiaomi-r3g.bin&&nvram set uart_en=1&&nvram set bootdelay=5&&nvram set flag_try_sys1_failed=1&&nvram commit
+
+> mtd -r write breed-mt7621-xiaomi-r3g.bin Bootloader
+
+2. Change Network Adapter to DHCP, wait for router reboot.
 
 #### From Padavan Firmware
 1. Open [WinSCP](https://winscp.net/eng/download.php). Enter your AC2100 Router IP Info.
